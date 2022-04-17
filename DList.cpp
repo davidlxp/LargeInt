@@ -297,14 +297,14 @@ void DList<T>::deleteItem(T item)
 }
 
 template <class T>
-DListIterator<T> DList<T>::begin()
+DListIterator<T> DList<T>::begin() const
 {
     DListIterator<T> iterator(first);
     return iterator;
 }
 
 template <class T>
-DListIterator<T> DList<T>::end()
+DListIterator<T> DList<T>::end() const
 {
     DListIterator<T> iterator(last);
     return iterator;

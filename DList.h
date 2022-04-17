@@ -107,12 +107,12 @@ public:
     /**
      * @Brief return an Iterator points to the 1st node of the list
      */
-    DListIterator<T> begin();
+    DListIterator<T> begin() const;
 
     /**
      * @Brief return an Iterator points to the last node of the list
      */
-    DListIterator<T> end();
+    DListIterator<T> end() const;
 };
 
 #endif //LARGEINT_DLIST_H
