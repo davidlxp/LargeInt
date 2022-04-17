@@ -18,7 +18,7 @@ private:
 
     /**
      * @Brief Function converts string to integer and store them in
-     * the linked list of largeInt linked list
+     * the linked list of largeInt which passed as reference
      */
     friend void stringToLargeInt(string& numStr, LargeInt& largeInt);
 
@@ -31,6 +31,22 @@ private:
      * @Brief Function destroy the current largeInt by removing all its value
      */
     void destroy();
+
+    /**
+     * @Brief Function adds two largeInt without taking their sign "+/-" into account
+     * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt1 + largeInt2
+     * ---> result from this function: 190, instead of -10
+     * @Output a string of unsigned number which represent the calculated largeInt
+     */
+    friend string addLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs);
+
+    /**
+     * @Brief Function minus two largeInt without taking their sign "+/-" into account
+     * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt2 - largeInt1
+     * ---> result from this function: -10, instead of 190
+     * @Output a string of unsigned number which represent the calculated largeInt
+     */
+    friend string minusLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs);
 
 public:
 
@@ -74,15 +90,15 @@ public:
      */
     LargeInt& operator=(const LargeInt& other);
 
-    LargeInt& operator+(const LargeInt& other) const;
+    LargeInt operator+(const LargeInt& other) const;
 
-    LargeInt& operator-(const LargeInt& other) const;
+    LargeInt operator-(const LargeInt& other) const;
 
-    LargeInt& operator*(const LargeInt& other) const;
+    LargeInt operator*(const LargeInt& other) const;
 
-    LargeInt& operator/(const LargeInt& other) const;
+    LargeInt operator/(const LargeInt& other) const;
 
-    LargeInt& operator%(const LargeInt& other) const;
+    LargeInt operator%(const LargeInt& other) const;
 
 
     bool operator==(const LargeInt& other) const;
@@ -94,6 +110,8 @@ public:
     bool operator>(const LargeInt& other) const;
 
     bool operator>=(const LargeInt& other) const;
+
+
 
 
 };
