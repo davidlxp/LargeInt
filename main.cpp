@@ -16,8 +16,8 @@ int main() {
     LargeInt largeInt;
     LargeInt largeInt2;
     LargeInt largeInt3;
-    string numStr = "8987";
-    string numStr2 = "5396";
+    string numStr = "1089";
+    string numStr2 = "5003";
     largeInt = numStr;
     largeInt2 = numStr2;
     LargeInt largeIntX = largeInt * largeInt2;

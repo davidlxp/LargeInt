@@ -38,17 +38,18 @@ private:
      * @Brief Function adds two largeInt without taking their sign "+/-" into account
      * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt1 + largeInt2
      * ---> result from this function: 190, instead of -10
-     * @Output a string of unsigned number which represent the calculated largeInt
+     * @Output a positive (+) largeInt which represent the calculation result
      */
-    friend string addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+    friend LargeInt addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
-     * @Brief Function conduct subtraction between two positive large integers
-     * @Example largeInt1 = 100, largeInt2 = 90 ---> largeInt2 - largeInt1
-     * ---> result from this function: 10
-     * @Output a string of unsigned number which represent the calculated largeInt
+     * @Brief Function conduct subtraction between two positive largeInts
+     * @Example largeInt1 = 90, largeInt2 = 100 ---> largeInt1 - largeInt2
+     * ---> result from this function: -10
+     * @Output a signed (+ or -) largeInt which represent the subtraction value between
+     * "lhs" and "rhs" largeInts
      */
-    friend string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs);
+    friend LargeInt subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs);
 
     /**
      * @Brief Function multiply two largeInt without taking their sign "+/-" into account
@@ -76,10 +77,10 @@ private:
 
     /**
      * @Brief Function multiplies a largeInt with a integer digit like "6", "8"
-     * @Input the largeInt and single digit int we want to multiply
-     * @Output the multiplication result in string format
+     * @Input the positive largeInt and positive single digit int we want to multiply
+     * @Output a positive largeInt as the representation of multiplication result
      */
-    friend string multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
+    friend LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
 
 public:
 
