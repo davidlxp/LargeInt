@@ -84,7 +84,7 @@ string addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
             carry = 1;
         }
 
-        resStr = to_string(keep) + resStr;                          // save the calculated value to string
+        resStr = to_string(keep).append(resStr);                    // save the calculated value to string
 
         if (!frontIterator1.isNull())                               // move iterators forward
             frontIterator1.next();
@@ -129,6 +129,8 @@ string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
             val2 = frontIterator2.getItem();
 
         val1 -= borrow;                                             // deduct borrowed value from last round
+        borrow = 0;                                                 // reset borrow to zero
+
         if (val1 < val2)
         {
             borrow = 1;                                             // borrow value from higher digit
@@ -136,7 +138,7 @@ string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
         }
         int sub = val1 - val2;                                      // calculate result
 
-        resStr = to_string(sub) + resStr;                           // save the calculated value to string
+        resStr = to_string(sub).append(resStr);                     // save the calculated value to string
 
         if (!frontIterator1.isNull())                               // move iterators forward
             frontIterator1.next();
@@ -144,9 +146,8 @@ string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
             frontIterator2.next();
     }
 
-    // if the most significant digit of result is "0", it's been borrowed to empty during calculation, remove it
-    if (resStr[0] == '0')
-        resStr = resStr.substr(1, resStr.length());
+    // remove all leading zeros from subtraction result. eg --> number "0007" --> after removing it becomes "7"
+    LargeInt::removeLeadingZeros(resStr);
 
     // "str" is a helper string which helps with checking if the result string is consisted all by "0"
     string str = resStr;
@@ -161,12 +162,22 @@ string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
         return resStr;
 }
 
-bool LargeInt::signsInVec(vector<string>& signsVec, string& signs) const
+bool LargeInt::signsInVec(vector<string>& signsVec, string& signs)
 {
     if (count(signsVec.begin(), signsVec.end(), signs))
         return true;
     else
         return false;
+}
+
+void LargeInt::removeLeadingZeros(string& strNum)
+{
+    int i = 0;                                                     // index where the 1st non-zero int appear in string
+
+    while (strNum[i] - '0' == 0)                                   // find the smallest index which is not zero
+        i++;
+
+    strNum = strNum.substr(i, strNum.length());                    // get the string part that does not have leading 0
 }
 
 istream& operator>>(istream &input, LargeInt& largeInt)
@@ -326,6 +337,11 @@ bool LargeInt::operator==(const LargeInt& other) const
         else
             return false;
     }
+}
+
+bool LargeInt::operator!=(const LargeInt &other) const
+{
+    return (!(*this == other));
 }
 
 bool LargeInt::operator<(const LargeInt &other) const

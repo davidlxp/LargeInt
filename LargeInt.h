@@ -56,7 +56,18 @@ private:
      * like {"0+", "+0", "++", "--", ...}
      * @Output return True if the input "signs" is in the "vector of signs"
      */
-    bool signsInVec(vector<string>& signsVec, string& signs) const;
+    bool static signsInVec(vector<string>& signsVec, string& signs);
+
+    /**
+     * @Brief Function removes all leading zeros from a "string representation of number"
+     * @Detail for example, number "000789" --> after removing will be come "789"
+     * @Input the reference of string representation of a number which the user
+     * want to remove all of its leading zeros
+     */
+    void static removeLeadingZeros(string& strNum);
+
+    void hey();
+
 
 public:
 
@@ -100,25 +111,46 @@ public:
      */
     LargeInt& operator=(const LargeInt& other);
 
+    /**
+     * @Brief Overloading "operator+" for user to conduct addition
+     * between two largeInt
+     */
     LargeInt operator+(const LargeInt& other) const;
 
+    /**
+     * @Brief Overloading "operator-" for user to conduct subtraction
+     * between two largeInt
+     */
     LargeInt operator-(const LargeInt& other) const;
 
+    /**
+     * @Brief Overloading "operator*" for user to conduct multiplication
+     * between two largeInt
+     */
     LargeInt operator*(const LargeInt& other) const;
 
+    /**
+     * @Brief Overloading "operator/" for user to conduct division
+     * between two largeInt
+     */
     LargeInt operator/(const LargeInt& other) const;
 
+    /**
+     * @Brief Overloading "operator%" for user to conduct module
+     * between two largeInt
+     */
     LargeInt operator%(const LargeInt& other) const;
 
 
+    /**
+     * @Brief Overloading comparing symbols for user to conduct
+     * comparison between largeInt
+     */
     bool operator==(const LargeInt& other) const;
-
+    bool operator!=(const LargeInt& other) const;
     bool operator<(const LargeInt& other) const;
-
     bool operator<=(const LargeInt& other) const;
-
     bool operator>(const LargeInt& other) const;
-
     bool operator>=(const LargeInt& other) const;
 
 
