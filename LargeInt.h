@@ -51,6 +51,14 @@ private:
     friend string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs);
 
     /**
+     * @Brief Function multiply two largeInt without taking their sign "+/-" into account
+     * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt1 * largeInt2
+     * ---> result from this function: 9000, instead of -9000
+     * @Output a positive largeInt which represent the multiplication result
+     */
+    friend LargeInt multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+
+    /**
      * @Brief Function checks if a signs (combination of signs from two largeInt)
      * like "+-" is in a vector of signs or not. Vector of signs could be something
      * like {"0+", "+0", "++", "--", ...}
@@ -66,8 +74,12 @@ private:
      */
     void static removeLeadingZeros(string& strNum);
 
-    void hey();
-
+    /**
+     * @Brief Function multiplies a largeInt with a integer digit like "6", "8"
+     * @Input the largeInt and single digit int we want to multiply
+     * @Output the multiplication result in string format
+     */
+    friend string multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
 
 public:
 
@@ -140,7 +152,6 @@ public:
      * between two largeInt
      */
     LargeInt operator%(const LargeInt& other) const;
-
 
     /**
      * @Brief Overloading comparing symbols for user to conduct

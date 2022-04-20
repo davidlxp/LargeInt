@@ -13,22 +13,26 @@ int main() {
 //    LargeInt largeIntX = largeInt - largeInt2;
 //    cout << largeIntX;
 
-//    LargeInt largeInt;
-//    LargeInt largeInt2;
-//    string numStr = "12";
-//    string numStr2 = "8";
-//    largeInt = numStr;
-//    largeInt2 = numStr2;
-//    LargeInt largeIntX = largeInt + largeInt2;
-//    cout << largeIntX << endl;
-
     LargeInt largeInt;
     LargeInt largeInt2;
-    string numStr = "-8";
-    string numStr2 = "5";
+    LargeInt largeInt3;
+    string numStr = "8987";
+    string numStr2 = "5396";
     largeInt = numStr;
     largeInt2 = numStr2;
-    cout << largeInt << " != " << largeInt2 << " == " << (largeInt != largeInt2) << endl;
+    LargeInt largeIntX = largeInt * largeInt2;
+    cout << largeIntX << endl;
+
+//    LargeInt largeInt;
+//    LargeInt largeInt2;
+//    string numStr = "-8";
+//    string numStr2 = "5";
+//    largeInt = numStr;
+//    largeInt2 = numStr2;
+//    cout << largeInt << " != " << largeInt2 << " == " << (largeInt != largeInt2) << endl;
+
+
+
 
     return 0;
 }
