@@ -8,6 +8,8 @@
 #define LARGEINT_LARGEINT_H
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include "DList.cpp"
 using namespace std;
 
@@ -20,7 +22,7 @@ private:
      * @Brief Function converts string to integer and store them in
      * the linked list of largeInt which passed as reference
      */
-    friend void stringToLargeInt(string& numStr, LargeInt& largeInt);
+    friend void assignStrToLargeInt(string numStr, LargeInt& largeInt);
 
     /**
      * @Brief Function copy values from largeInt to another largeInt
@@ -38,15 +40,23 @@ private:
      * ---> result from this function: 190, instead of -10
      * @Output a string of unsigned number which represent the calculated largeInt
      */
-    friend string addLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs);
+    friend string addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
-     * @Brief Function minus two largeInt without taking their sign "+/-" into account
-     * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt2 - largeInt1
-     * ---> result from this function: -10, instead of 190
+     * @Brief Function conduct subtraction between two positive large integers
+     * @Example largeInt1 = 100, largeInt2 = 90 ---> largeInt2 - largeInt1
+     * ---> result from this function: 10
      * @Output a string of unsigned number which represent the calculated largeInt
      */
-    friend string minusLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs);
+    friend string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs);
+
+    /**
+     * @Brief Function checks if a signs (combination of signs from two largeInt)
+     * like "+-" is in a vector of signs or not. Vector of signs could be something
+     * like {"0+", "+0", "++", "--", ...}
+     * @Output return True if the input "signs" is in the "vector of signs"
+     */
+    bool signsInVec(vector<string>& signsVec, string& signs) const;
 
 public:
 

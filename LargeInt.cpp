@@ -8,24 +8,34 @@
 
 LargeInt::LargeInt()
 {
-    sign = '\0';
+    // Every LargeInt will be initialized as 0
+    sign = '0';
+    numList.insertFront(0);
 }
 
-void stringToLargeInt(string& numStr, LargeInt& largeInt)
+void assignStrToLargeInt(string numStr, LargeInt& largeInt)
 {
     largeInt.destroy();                                     // remove all existing value in largeInt
 
-    if (numStr.length() == 0)                               // don't need to transform string if its empty
-        return;
-    else if (numStr[0] == '-')                              // try to read number sign (+/-) from the index 0 of input
+    if (numStr.length() == 0 || numStr == "0" || numStr == "+0" || numStr == "-0")
+    {
+        largeInt.sign = '0';                                // read both empty and "0" input as 0
+        numStr = "0";
+    }
+    else if (numStr[0] == '-')                              // try to read number sign "-" from the index 0 of input
     {
         largeInt.sign = '-';
         numStr = numStr.substr(1,numStr.length());     // remove 1st element from string b/c it's a sign
     }
-    else if (numStr != "0")
-        largeInt.sign = '+';                                // sign when number is positive
+    else if (numStr[0] == '+')                              // try to read number sign "+" from the index 0 of input
+    {
+        largeInt.sign = '+';
+        numStr = numStr.substr(1,numStr.length());     // remove 1st element from string b/c it's a sign
+    }
     else
-        largeInt.sign = '0';                                // sign when number is zero
+    {
+        largeInt.sign = '+';                                // sign when number is positive
+    }
 
     for (char x : numStr)                                   // insert integer from input into linked list
         largeInt.numList.insertFront(x - '0');         // we can get integer number by doing ('char of num' - '0')
@@ -44,7 +54,7 @@ void LargeInt::destroy()
     sign = '\0';
 }
 
-string addLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs)
+string addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
 {
     string resStr;                                                  // string representation of result largeInt
 
@@ -54,8 +64,8 @@ string addLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs)
 
     while (!frontIterator1.isNull() || !frontIterator2.isNull())    // continue until both iterator are null
     {
-        int val1 = 0;                                               // value pointed by iterator on "this" largeInt
-        int val2 = 0;                                               // value pointed by iterator on "other" largeInt
+        int val1 = 0;                                               // value pointed on linked list of "lhs" largeInt
+        int val2 = 0;                                               // value pointed on linked list of "rhs" largeInt
         int keep;                                                   // the value to keep after addition (remove mod)
 
         if (!frontIterator1.isNull())                               // assign "val" if iterator not points to nullptr
@@ -88,17 +98,83 @@ string addLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs)
     return resStr;
 }
 
-//string minusLargeIntIgnoreSign(const LargeInt& lhs, const LargeInt& rhs)
-//{
-//
-//}
+string subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
+{
+    // variable records if the position of two largeInt swapped
+    bool swap = false;
+
+    // if lhs is smaller than the rhs, swap them, so we always have large value minus smaller
+    if (lhs < rhs)
+    {
+        LargeInt temp = rhs;
+        rhs = lhs;
+        lhs = temp;
+        swap = true;
+    }
+
+    // the front iterators of linked list in two largeInt variables
+    string resStr;                                                  // string representation of result largeInt
+    int borrow = 0;                                                 // variable stores value borrowed from higher digit
+    DListIterator<int> frontIterator1 = lhs.numList.begin();        // front iterator of lhs largeInt in addition
+    DListIterator<int> frontIterator2 = rhs.numList.begin();        // front iterator of rhs largeInt in addition
+
+    while (!frontIterator1.isNull() || !frontIterator2.isNull())    // continue until both iterator are null
+    {
+        int val1 = 0;                                               // value pointed on linked list of "lhs" largeInt
+        int val2 = 0;                                               // value pointed on linked list of "rhs" largeInt
+
+        if (!frontIterator1.isNull())                               // assign "val" if iterator not points to nullptr
+            val1 = frontIterator1.getItem();
+        if (!frontIterator2.isNull())
+            val2 = frontIterator2.getItem();
+
+        val1 -= borrow;                                             // deduct borrowed value from last round
+        if (val1 < val2)
+        {
+            borrow = 1;                                             // borrow value from higher digit
+            val1 += 10;
+        }
+        int sub = val1 - val2;                                      // calculate result
+
+        resStr = to_string(sub) + resStr;                           // save the calculated value to string
+
+        if (!frontIterator1.isNull())                               // move iterators forward
+            frontIterator1.next();
+        if (!frontIterator2.isNull())
+            frontIterator2.next();
+    }
+
+    // if the most significant digit of result is "0", it's been borrowed to empty during calculation, remove it
+    if (resStr[0] == '0')
+        resStr = resStr.substr(1, resStr.length());
+
+    // "str" is a helper string which helps with checking if the result string is consisted all by "0"
+    string str = resStr;
+    str.erase(remove(str.begin(), str.end(), '0'), str.end());
+
+    // return the final subtraction result
+    if (str.empty())                                                // if result is all "0" like "00000...", return "0"
+        return "0";
+    else if (swap)                                                  // if lhs and rhs swapped before subtraction
+        return ("-" + resStr);
+    else                                                            // if lhs and rhs didn't swap before subtraction
+        return resStr;
+}
+
+bool LargeInt::signsInVec(vector<string>& signsVec, string& signs) const
+{
+    if (count(signsVec.begin(), signsVec.end(), signs))
+        return true;
+    else
+        return false;
+}
 
 istream& operator>>(istream &input, LargeInt& largeInt)
 {
-    string numStr;                                          // a string of number which read from input stream
-    input >> numStr;                                        // read from input stream
+    string numStr;                                                 // a string of number which read from input stream
+    input >> numStr;                                               // read from input stream
 
-    stringToLargeInt(numStr, largeInt);              // transform string to largeInt
+    largeInt = numStr;                                             // assign the input string to largeInt
 
     return input;
 }
@@ -124,7 +200,7 @@ ostream& operator<<(ostream &output, LargeInt& largeInt)
 
 LargeInt& LargeInt::operator=(string& numStr)
 {
-    stringToLargeInt(numStr, *this);
+    assignStrToLargeInt(numStr, *this);
     return *this;
 }
 
@@ -136,9 +212,91 @@ LargeInt& LargeInt::operator=(const LargeInt& other)
 
 LargeInt LargeInt::operator+(const LargeInt& other) const
 {
-    string resStr = addLargeIntIgnoreSign(*this, other);
-    LargeInt resLargeInt;
-    resLargeInt = resStr;
+    string signs;                                               // save combination of sign from this and other
+    signs.push_back(sign);
+    signs.push_back(other.sign);
+
+    string resStr;                                              // string representation of a largeInt
+    LargeInt resLargeInt;                                       // the largeInt as a result to be returned
+
+    if (signs == "00")
+        resStr = "0";
+    else if (signs == "0+" || signs == "+0" || signs == "++")
+        resStr = addLargeIntIgnoreSign(*this, other);
+    else if (signs == "0-" || signs == "-0" || signs == "--")
+    {
+        resStr = addLargeIntIgnoreSign(*this, other);  // -90 & -60 ==> (90 + 60) ==> return "150"
+        resStr = "-" + resStr;                                  // add "-" before "150" ==> "-150"
+    }
+    else                                                        // when signs == "+-" or "-+"
+    {
+        if (sign == '-')                                        // if "this" is the negative one
+        {
+            LargeInt newThis(*this);
+            newThis.sign = '+';
+            return other - newThis;                             // eg. -90 + 60 == 60 - 90
+        }
+        else                                                    // if "other" is the negative one
+        {
+            LargeInt newOther(other);
+            newOther.sign = '+';
+            return *this - newOther;                            // eg. 90 + (-60) == 90 - 60
+        }
+    }
+
+    resLargeInt = resStr;                                       // str to largeInt. eg. "-150" ==> 0->1->5, sign = '-'
+    return resLargeInt;
+}
+
+LargeInt LargeInt::operator-(const LargeInt& other) const
+{
+    string signs;                                               // save combination of sign from this and other
+    signs.push_back(sign);
+    signs.push_back(other.sign);
+
+    string resStr;                                              // string representation of a largeInt
+    LargeInt resLargeInt;                                       // the largeInt as a result to be returned
+
+    if (signs == "00")                                          // when 0 - 0, return 0
+    {
+        resStr = "0";
+        resLargeInt = resStr;
+    }
+    else if (signs == "0+" || signs == "0-")                    // when "0 - positive num" or "0 - negative num"
+    {
+        resLargeInt = other;                                    // the result is "other" largeInt with its sign reversed
+        if (signs == "0+")
+            resLargeInt.sign = '-';
+        else
+            resLargeInt.sign = '+';
+    }
+    else if (signs == "+0" || signs == "-0")                    // when "positive num - 0" or "negative num - 0"
+        resLargeInt = *this;                                    // the result is "this" largeInt
+    else if (signs == "-+" || signs == "+-" || signs == "--")
+    {
+        LargeInt posThis = *this;                               // turning both "this" and "other" to positive
+        LargeInt posOther = other;
+        posThis.sign = '+';
+        posOther.sign = '+';
+
+        if (signs == "-+" || signs == "+-")                     // eg of "-+" ==>  -9 - 8   ==> -(9 + 8)
+        {                                                       // eg of "+-" ==>  9 - (-8) ==> 9 + 8
+            resLargeInt = posThis + posOther;
+            if (signs == "-+")
+                resLargeInt.sign = '-';
+        }
+        else                                                    // eg of "--" ==> -9 - (-8) ==> 8 - 9
+        {
+            // swap position of the positive version of "this" and "other" before subtraction
+            resStr = subtractPositiveLargeInt(posOther, posThis);
+            resLargeInt = resStr;
+        }
+    }
+    else                                                        // when doing subtraction of two positive numbers
+    {   // do subtraction for positive version of "this" and "other"
+        resStr = subtractPositiveLargeInt(*this, other);
+        resLargeInt = resStr;
+    }
 
     return resLargeInt;
 }
@@ -176,12 +334,15 @@ bool LargeInt::operator<(const LargeInt &other) const
     signs.push_back(sign);
     signs.push_back(other.sign);
 
+    vector<string> defNotSmallerSigns {"00", "0-", "+-", "+0"};
+    vector<string> defSmallerSigns {"-0", "0+", "-+"};
+
     int thisDigits = numList.getLength();                       // get number of digits of both largeInt
     int otherDigits = other.numList.getLength();
 
-    if (other.sign == '\0' || signs == "0-" || signs == "+-")   // if this is 0 or positive and other is negative
+    if (signsInVec(defNotSmallerSigns, signs))            // if this is 0 or positive and other is negative
         return false;
-    else if (signs == "0+" || signs == "-+")                    // if this is 0 or negative and other is positive
+    else if (signsInVec(defSmallerSigns, signs))          // if this is 0 or negative and other is positive
         return true;
     else if (thisDigits < otherDigits)
     {

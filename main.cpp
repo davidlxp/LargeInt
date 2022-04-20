@@ -10,22 +10,22 @@ int main() {
 //    cin >> largeInt;
 //    cout << largeInt;
 
-//    LargeInt largeInt;
-//    LargeInt largeInt2;
-//    string numStr = "20";
-//    string numStr2 = "7989";
-//    largeInt = numStr;
-//    largeInt = numStr2;
-//    cout << largeInt << endl;
-
     LargeInt largeInt;
     LargeInt largeInt2;
-    string numStr = "-9";
-    string numStr2 = "7";
+    string numStr = "12";
+    string numStr2 = "8";
     largeInt = numStr;
     largeInt2 = numStr2;
-    cout << (largeInt < largeInt2) << endl;
+    LargeInt largeIntX = largeInt + largeInt2;
+    cout << largeIntX << endl;
 
+//    LargeInt largeInt;
+//    LargeInt largeInt2;
+//    string numStr = "-8";
+//    string numStr2 = "5";
+//    largeInt = numStr;
+//    largeInt2 = numStr2;
+//    cout << largeInt << " < " << largeInt2 << " == " << (largeInt < largeInt2) << endl;
 
     return 0;
 }
