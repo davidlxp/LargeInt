@@ -13,14 +13,11 @@ int main() {
 //    LargeInt largeIntX = largeInt - largeInt2;
 //    cout << largeIntX;
 
-    LargeInt largeInt;
-    LargeInt largeInt2;
-    LargeInt largeInt3;
-    string numStr = "10";
-    string numStr2 = "2";
-    largeInt = numStr;
-    largeInt2 = numStr2;
-    LargeInt largeIntX = largeInt / largeInt2;
+    LargeInt x;
+    x = LargeInt("7");
+    LargeInt largeInt("-10");
+    LargeInt largeInt2("2");
+    LargeInt largeIntX = largeInt % x;
     cout << largeIntX << endl;
 
 //    LargeInt largeInt;

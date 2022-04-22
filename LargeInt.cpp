@@ -13,6 +13,11 @@ LargeInt::LargeInt()
     numList.insertFront(0);
 }
 
+LargeInt::LargeInt(string numStr)
+{
+    assignStrToLargeInt(numStr, *this);
+}
+
 void assignStrToLargeInt(string numStr, LargeInt& largeInt)
 {
     largeInt.destroy();                                     // remove all existing value in largeInt
@@ -318,6 +323,23 @@ void LargeInt::removeLeadingZeros(string& strNum)
     strNum = strNum.substr(i, strNum.length());                    // get the string part that does not have leading 0
 }
 
+LargeInt LargeInt::integerToLargeInt(const int& integer)
+{
+    // create largeInt representation for an integer
+    string intStr = to_string(integer);
+    LargeInt largeInt;
+    largeInt = intStr;
+    return largeInt;
+}
+
+string LargeInt::combineSigns(const LargeInt& lhs, const LargeInt& rhs)
+{
+    string signs;                                                  // save combination of sign from this and other
+    signs.push_back(lhs.sign);
+    signs.push_back(rhs.sign);
+    return signs;
+}
+
 istream& operator>>(istream &input, LargeInt& largeInt)
 {
     string numStr;                                                 // a string of number which read from input stream
@@ -361,9 +383,7 @@ LargeInt& LargeInt::operator=(const LargeInt& other)
 
 LargeInt LargeInt::operator+(const LargeInt& other) const
 {
-    string signs;                                               // save combination of sign from this and other
-    signs.push_back(sign);
-    signs.push_back(other.sign);
+    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
 
     LargeInt resLargeInt;                                       // the largeInt as a result to be returned
 
@@ -401,9 +421,7 @@ LargeInt LargeInt::operator+(const LargeInt& other) const
 
 LargeInt LargeInt::operator-(const LargeInt& other) const
 {
-    string signs;                                               // save combination of sign from this and other
-    signs.push_back(sign);
-    signs.push_back(other.sign);
+    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
 
     LargeInt resLargeInt;                                       // the largeInt as a result to be returned
 
@@ -447,11 +465,19 @@ LargeInt LargeInt::operator-(const LargeInt& other) const
     return resLargeInt;
 }
 
+LargeInt LargeInt::operator-(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    // return the minus between two largeInt
+    LargeInt resLargeInt = (*this) - otherLargeInt;
+    return (resLargeInt);
+}
+
 LargeInt LargeInt::operator*(const LargeInt& other) const
 {
-    string signs;                                               // save combination of sign from this and other
-    signs.push_back(sign);
-    signs.push_back(other.sign);
+    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
 
     string resStr;                                              // string representation of a largeInt
     LargeInt resLargeInt;                                       // the largeInt as a result to be returned
@@ -462,10 +488,7 @@ LargeInt LargeInt::operator*(const LargeInt& other) const
     vector<string> resultIsNegSigns {"+-", "-+"};
 
     if (signsInVec(resultIsZeroSigns, signs))            // if multiplication result should be zero
-    {
-        resStr = "0";
-        resLargeInt = resStr;
-    }
+        resLargeInt = LargeInt("0");
     else if (signsInVec(resultIsPosSigns, signs))        // if multiplication result should be positive
     {
         resLargeInt = multiLargeIntIgnoreSign(*this, other);
@@ -483,9 +506,7 @@ LargeInt LargeInt::operator*(const LargeInt& other) const
 LargeInt LargeInt::operator*(const int& other) const
 {
     // create largeInt representation for an integer
-    string otherIntStr = to_string(other);
-    LargeInt otherLargeInt;
-    otherLargeInt = otherIntStr;
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
 
     // return the multiplication between two largeInt
     LargeInt resLargeInt = (*this) * otherLargeInt;
@@ -494,9 +515,7 @@ LargeInt LargeInt::operator*(const int& other) const
 
 LargeInt LargeInt::operator/(const LargeInt& other) const
 {
-    string signs;                                               // save combination of sign from this and other
-    signs.push_back(sign);
-    signs.push_back(other.sign);
+    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
 
     string resStr;                                              // string representation of a largeInt
     LargeInt resLargeInt;                                       // the largeInt as a result to be returned
@@ -512,10 +531,7 @@ LargeInt LargeInt::operator/(const LargeInt& other) const
 
     // division operations
     if (signsInVec(resultIsZeroSigns, signs))            // if division result should be zero
-    {
-        resStr = "0";
-        resLargeInt = resStr;
-    }
+        resLargeInt = LargeInt("0");
     else if (signsInVec(resultIsPosSigns, signs))        // if multiplication result should be positive
     {
         resLargeInt = divideLargeIntIgnoreSign(*this, other);
@@ -525,6 +541,47 @@ LargeInt LargeInt::operator/(const LargeInt& other) const
     {
         resLargeInt = divideLargeIntIgnoreSign(*this, other);
         resLargeInt.sign = '-';
+    }
+
+    return resLargeInt;
+}
+
+LargeInt LargeInt::operator%(const LargeInt& other) const
+{
+    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
+
+    string resStr;                                              // string representation of a largeInt
+    LargeInt resLargeInt;                                       // the largeInt as a result to be returned
+
+    // sign combination indicates the result should be zero, positive or negative
+    vector<string> resultInvalidSigns {"00", "-0", "+0"};
+    vector<string> resultIsZeroSigns {"0-", "0+"};
+    vector<string> sameSigns {"++", "--"};
+    vector<string> diffSigns {"+-", "-+"};
+
+    // assert if denominator is zero
+    assert(!signsInVec(resultInvalidSigns, signs) && "Operation is invalid. Denominator of module can NOT be zero!");
+
+    // division operations
+    if (signsInVec(resultIsZeroSigns, signs))            // if division result should be zero
+        resLargeInt = LargeInt("0");
+    else if (signsInVec(sameSigns, signs))               // if two signs are the same like "++" or "--"
+    {
+        LargeInt quotient = *this / other;                      // firstly divide LargeInt this and other
+
+        if (*this == other * quotient)                          // get the module
+            resLargeInt = LargeInt("0");
+        else
+            resLargeInt = *this - (other * quotient);
+    }
+    else
+    {
+        LargeInt quotient = *this / other;                      // firstly divide LargeInt this and other
+        if (*this == other * quotient)                          // get the module
+            resLargeInt = LargeInt("0");
+        else
+            resLargeInt = *this - (other * (quotient-1));
+
     }
 
     return resLargeInt;
@@ -564,9 +621,7 @@ bool LargeInt::operator!=(const LargeInt &other) const
 
 bool LargeInt::operator<(const LargeInt &other) const
 {
-    string signs;                                               // save combination of sign from this and other
-    signs.push_back(sign);
-    signs.push_back(other.sign);
+    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
 
     vector<string> defNotSmallerSigns {"00", "0-", "+-", "+0"};
     vector<string> defSmallerSigns {"-0", "0+", "-+"};

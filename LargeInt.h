@@ -60,6 +60,13 @@ private:
     friend LargeInt multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
+     * @Brief Function multiplies a largeInt with a integer digit like "6", "8"
+     * @Input the positive largeInt and positive single digit int we want to multiply
+     * @Output a positive largeInt as the representation of multiplication result
+     */
+    friend LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
+
+    /**
      * @Brief Function divide a largeInt by another largeInt, without taking
      * their sign "+/-" into account
      * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt1 / largeInt2
@@ -85,18 +92,28 @@ private:
     void static removeLeadingZeros(string& strNum);
 
     /**
-     * @Brief Function multiplies a largeInt with a integer digit like "6", "8"
-     * @Input the positive largeInt and positive single digit int we want to multiply
-     * @Output a positive largeInt as the representation of multiplication result
+     * @Brief Function converts an integer to largeInt datatype
+     * @Input the reference of an integer
+     * @Output a largeInt representation of that integer variable
      */
-    friend LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
+    LargeInt static integerToLargeInt(const int& integer);
+
+    /**
+     * @Brief Function combines the signs from two LargeInt into one string
+     */
+    string static combineSigns(const LargeInt& lhs, const LargeInt& rhs);
 
 public:
 
     /**
-     * @Brief The constructor of LargeInt class
+     * @Brief The default constructor of LargeInt class
      */
     LargeInt();
+
+    /**
+     * @Brief The constructor of LargeInt class with value provided in string like "-157"
+     */
+    LargeInt(string numStr);
 
     /**
      * @Brief Overloading "operator>>" so we can read large integer
@@ -148,6 +165,14 @@ public:
      * @Output the minus result in LargeInt datatype
      */
     LargeInt operator-(const LargeInt& other) const;
+
+    /**
+     * @Brief Overloading "operator-" for user to conduct subtraction
+     * between a largeInt and a integer
+     * @Input the reference of an integer to minus with
+     * @Output the minus result in LargeInt datatype
+     */
+    LargeInt operator-(const int& other) const;
 
     /**
      * @Brief Overloading "operator*" for user to conduct multiplication
