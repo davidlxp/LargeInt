@@ -238,6 +238,68 @@ LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d)
     return resLargeInt;
 }
 
+LargeInt divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
+{
+    lhs.sign = '+';                                                 // turning both largeInt to positive
+    rhs.sign = '+';
+
+    string resStr;                                                  // string representation of result largeInt
+    DListIterator<int> backIteratorL = lhs.numList.end();           // the end iterator of the largeInt lhs
+
+    LargeInt tempNumerator;                                         // temp numerator will iteratively divide rhs
+
+    while (!backIteratorL.isNull())
+    {
+        // a variable indicates whether it's the beginning of the round
+        bool roundBeginFlag = true;
+
+        // add value to temp numerator until it >= largeInt rhs
+        while (tempNumerator < rhs && !backIteratorL.isNull())
+        {
+            // add zero to final calculation string if it is not empty, and it's not the beginning of round
+            if (!resStr.empty() && !roundBeginFlag)
+                resStr.append(to_string(0));
+
+            // update the round begin flag to indicate it's not the beginning of round anymore
+            if (roundBeginFlag)
+                roundBeginFlag = false;
+
+            // if temporary numerator is zero, empty its linked list to prepare for loading.
+            if (tempNumerator.sign == '0')
+            {
+                tempNumerator.destroy();
+                tempNumerator.sign = '+';
+            }
+
+            // get one digit from largeInt "lhs" and insert to tempNumerator
+            int val = backIteratorL.getItem();
+            backIteratorL.prev();
+            tempNumerator.numList.insertFront(val);
+        }
+
+        // if the tempNumerator >= rhs, do division.
+        // if tempNumerator < rhs, but iterator is null, it means the division process end
+        if (tempNumerator >= rhs)
+        {
+            // rhs is the denominator. Multiply it by 1...9, until find the largest value which is
+            // smaller than the tempNumerator. And that value is the division result of this round.
+            int i = 1;
+            while (rhs * i <= tempNumerator)
+                i++;
+            resStr.append(to_string(i-1));
+
+            // after get division result for this round. Prepare tempNumerator for the next round
+            tempNumerator = tempNumerator - rhs * (i-1);
+        }
+    }
+
+    LargeInt resLargeInt;                                           // the result largeInt of calculation
+    resLargeInt = resStr;
+    resLargeInt.sign = '+';
+
+    return resLargeInt;
+}
+
 bool LargeInt::signsInVec(vector<string>& signsVec, string& signs)
 {
     if (count(signsVec.begin(), signsVec.end(), signs))
@@ -412,6 +474,56 @@ LargeInt LargeInt::operator*(const LargeInt& other) const
     else                                                        // if multiplication result should be negative
     {
         resLargeInt = multiLargeIntIgnoreSign(*this, other);
+        resLargeInt.sign = '-';
+    }
+
+    return resLargeInt;
+}
+
+LargeInt LargeInt::operator*(const int& other) const
+{
+    // create largeInt representation for an integer
+    string otherIntStr = to_string(other);
+    LargeInt otherLargeInt;
+    otherLargeInt = otherIntStr;
+
+    // return the multiplication between two largeInt
+    LargeInt resLargeInt = (*this) * otherLargeInt;
+    return (resLargeInt);
+}
+
+LargeInt LargeInt::operator/(const LargeInt& other) const
+{
+    string signs;                                               // save combination of sign from this and other
+    signs.push_back(sign);
+    signs.push_back(other.sign);
+
+    string resStr;                                              // string representation of a largeInt
+    LargeInt resLargeInt;                                       // the largeInt as a result to be returned
+
+    // sign combination indicates the result should be zero, positive or negative
+    vector<string> resultInvalidSigns {"00", "-0", "+0"};
+    vector<string> resultIsZeroSigns {"0-", "0+"};
+    vector<string> resultIsPosSigns {"++", "--"};
+    vector<string> resultIsNegSigns {"+-", "-+"};
+
+    // assert if denominator is zero
+    assert(!signsInVec(resultInvalidSigns, signs) && "Operation is invalid. Denominator can NOT be zero!");
+
+    // division operations
+    if (signsInVec(resultIsZeroSigns, signs))            // if division result should be zero
+    {
+        resStr = "0";
+        resLargeInt = resStr;
+    }
+    else if (signsInVec(resultIsPosSigns, signs))        // if multiplication result should be positive
+    {
+        resLargeInt = divideLargeIntIgnoreSign(*this, other);
+        resLargeInt.sign = '+';
+    }
+    else                                                        // if multiplication result should be negative
+    {
+        resLargeInt = divideLargeIntIgnoreSign(*this, other);
         resLargeInt.sign = '-';
     }
 

@@ -60,6 +60,15 @@ private:
     friend LargeInt multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
+     * @Brief Function divide a largeInt by another largeInt, without taking
+     * their sign "+/-" into account
+     * @Example largeInt1 = -100, largeInt2 = 90 ---> largeInt1 / largeInt2
+     * ---> result from this function: 1, instead of -1
+     * @Output a positive largeInt which represent the multiplication result
+     */
+    friend LargeInt divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+
+    /**
      * @Brief Function checks if a signs (combination of signs from two largeInt)
      * like "+-" is in a vector of signs or not. Vector of signs could be something
      * like {"0+", "+0", "++", "--", ...}
@@ -127,30 +136,48 @@ public:
     /**
      * @Brief Overloading "operator+" for user to conduct addition
      * between two largeInt
+     * @Input the reference of another largeInt to add with
+     * @Output the addition result in LargeInt datatype
      */
     LargeInt operator+(const LargeInt& other) const;
 
     /**
      * @Brief Overloading "operator-" for user to conduct subtraction
      * between two largeInt
+     * @Input the reference of another largeInt to minus with
+     * @Output the minus result in LargeInt datatype
      */
     LargeInt operator-(const LargeInt& other) const;
 
     /**
      * @Brief Overloading "operator*" for user to conduct multiplication
      * between two largeInt
+     * @Input the reference of another largeInt to multiply with
+     * @Output the multiplication result in LargeInt datatype
      */
     LargeInt operator*(const LargeInt& other) const;
 
     /**
+     * @Brief Overloading "operator*" for user to conduct multiplication
+     * between a largeInt and a integer
+     * @Input the reference of an integer to multiply with
+     * @Output the multiplication result in LargeInt datatype
+     */
+    LargeInt operator*(const int& other) const;
+
+    /**
      * @Brief Overloading "operator/" for user to conduct division
      * between two largeInt
+     * @Input the reference of an integer to divide with
+     * @Output the division result in LargeInt datatype
      */
     LargeInt operator/(const LargeInt& other) const;
 
     /**
      * @Brief Overloading "operator%" for user to conduct module
      * between two largeInt
+     * @Input the reference of an integer to module with
+     * @Output the division result in LargeInt datatype
      */
     LargeInt operator%(const LargeInt& other) const;
 
