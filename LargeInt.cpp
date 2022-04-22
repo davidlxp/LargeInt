@@ -381,6 +381,14 @@ LargeInt& LargeInt::operator=(const LargeInt& other)
     return *this;
 }
 
+LargeInt& LargeInt::operator=(const int& other)
+{
+    // create largeInt representation for an integer
+    string otherNumStr = to_string(other);
+    assignStrToLargeInt(otherNumStr, *this);
+    return *this;
+}
+
 LargeInt LargeInt::operator+(const LargeInt& other) const
 {
     string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
@@ -465,16 +473,6 @@ LargeInt LargeInt::operator-(const LargeInt& other) const
     return resLargeInt;
 }
 
-LargeInt LargeInt::operator-(const int& other) const
-{
-    // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
-
-    // return the minus between two largeInt
-    LargeInt resLargeInt = (*this) - otherLargeInt;
-    return (resLargeInt);
-}
-
 LargeInt LargeInt::operator*(const LargeInt& other) const
 {
     string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
@@ -501,16 +499,6 @@ LargeInt LargeInt::operator*(const LargeInt& other) const
     }
 
     return resLargeInt;
-}
-
-LargeInt LargeInt::operator*(const int& other) const
-{
-    // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
-
-    // return the multiplication between two largeInt
-    LargeInt resLargeInt = (*this) * otherLargeInt;
-    return (resLargeInt);
 }
 
 LargeInt LargeInt::operator/(const LargeInt& other) const
@@ -585,6 +573,56 @@ LargeInt LargeInt::operator%(const LargeInt& other) const
     }
 
     return resLargeInt;
+}
+
+LargeInt LargeInt::operator+(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    // return the addition between two largeInt
+    LargeInt resLargeInt = (*this) + otherLargeInt;
+    return (resLargeInt);
+}
+
+LargeInt LargeInt::operator-(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    // return the minus between two largeInt
+    LargeInt resLargeInt = (*this) - otherLargeInt;
+    return (resLargeInt);
+}
+
+LargeInt LargeInt::operator*(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    // return the multiplication between two largeInt
+    LargeInt resLargeInt = (*this) * otherLargeInt;
+    return (resLargeInt);
+}
+
+LargeInt LargeInt::operator/(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    // return the division between two largeInt
+    LargeInt resLargeInt = (*this) / otherLargeInt;
+    return (resLargeInt);
+}
+
+LargeInt LargeInt::operator%(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    // return the module between two largeInt
+    LargeInt resLargeInt = (*this) % otherLargeInt;
+    return (resLargeInt);
 }
 
 bool LargeInt::operator==(const LargeInt& other) const
@@ -695,6 +733,54 @@ bool LargeInt::operator>(const LargeInt& other) const
 bool LargeInt::operator>=(const LargeInt& other) const
 {
     return (!(*this < other));
+}
+
+bool LargeInt::operator==(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    return (*this == otherLargeInt);
+}
+
+bool LargeInt::operator!=(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    return (*this != otherLargeInt);
+}
+
+bool LargeInt::operator<(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    return (*this < otherLargeInt);
+}
+
+bool LargeInt::operator<=(const int& other) const
+{
+    // create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    return (*this <= otherLargeInt);
+}
+
+bool LargeInt::operator>(const int& other) const
+{
+// create largeInt representation for an integer
+LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+return (*this > otherLargeInt);
+}
+
+bool LargeInt::operator>=(const int& other) const
+{
+// create largeInt representation for an integer
+    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+
+    return (*this >= otherLargeInt);
 }
 
 
