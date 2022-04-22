@@ -151,6 +151,17 @@ public:
     LargeInt& operator=(const LargeInt& other);
 
     /**
+     * @Brief 3rd version of overloading operator= so that we can assign
+     * the value from a integer to a largeInt.
+     *
+     * For example:
+     *   LargeInt x;
+     *   int y = 8;
+     *   x = y;
+     */
+    LargeInt& operator=(const int& other);
+
+    /**
      * @Brief Overloading "operator+" for user to conduct addition
      * between two largeInt
      * @Input the reference of another largeInt to add with
@@ -167,28 +178,12 @@ public:
     LargeInt operator-(const LargeInt& other) const;
 
     /**
-     * @Brief Overloading "operator-" for user to conduct subtraction
-     * between a largeInt and a integer
-     * @Input the reference of an integer to minus with
-     * @Output the minus result in LargeInt datatype
-     */
-    LargeInt operator-(const int& other) const;
-
-    /**
      * @Brief Overloading "operator*" for user to conduct multiplication
      * between two largeInt
      * @Input the reference of another largeInt to multiply with
      * @Output the multiplication result in LargeInt datatype
      */
     LargeInt operator*(const LargeInt& other) const;
-
-    /**
-     * @Brief Overloading "operator*" for user to conduct multiplication
-     * between a largeInt and a integer
-     * @Input the reference of an integer to multiply with
-     * @Output the multiplication result in LargeInt datatype
-     */
-    LargeInt operator*(const int& other) const;
 
     /**
      * @Brief Overloading "operator/" for user to conduct division
@@ -201,10 +196,22 @@ public:
     /**
      * @Brief Overloading "operator%" for user to conduct module
      * between two largeInt
-     * @Input the reference of an integer to module with
+     * @Input the reference of an integer to divide with
      * @Output the division result in LargeInt datatype
      */
     LargeInt operator%(const LargeInt& other) const;
+
+    /**
+     * @Brief Overloading arithmetic operators for user to conduct
+     * arithmetic operations between a largeInt and a integer
+     * @Input the reference of an integer to conduct arithmetic operation with
+     * @Output the arithmetic result in LargeInt datatype
+     */
+    LargeInt operator+(const int& other) const;
+    LargeInt operator-(const int& other) const;
+    LargeInt operator*(const int& other) const;
+    LargeInt operator/(const int& other) const;
+    LargeInt operator%(const int& other) const;
 
     /**
      * @Brief Overloading comparing symbols for user to conduct
@@ -216,6 +223,18 @@ public:
     bool operator<=(const LargeInt& other) const;
     bool operator>(const LargeInt& other) const;
     bool operator>=(const LargeInt& other) const;
+
+
+    /**
+     * @Brief Overloading comparing symbols for user to conduct
+     * comparison between largeInt and integer
+     */
+    bool operator==(const int& other) const;
+    bool operator!=(const int& other) const;
+    bool operator<(const int& other) const;
+    bool operator<=(const int& other) const;
+    bool operator>(const int& other) const;
+    bool operator>=(const int& other) const;
 
 
 

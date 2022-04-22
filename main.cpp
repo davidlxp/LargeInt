@@ -14,11 +14,12 @@ int main() {
 //    cout << largeIntX;
 
     LargeInt x;
-    x = LargeInt("7");
+    x = -1;
     LargeInt largeInt("-10");
     LargeInt largeInt2("2");
     LargeInt largeIntX = largeInt % x;
     cout << largeIntX << endl;
+    cout << (largeInt != x) << endl;
 
 //    LargeInt largeInt;
 //    LargeInt largeInt2;
