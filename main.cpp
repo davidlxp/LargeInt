@@ -14,10 +14,10 @@ int main() {
 //    cout << largeIntX;
 
     LargeInt x;
-    x = -1;
+    x = 919;
     LargeInt largeInt("-10");
     LargeInt largeInt2("2");
-    LargeInt largeIntX = largeInt % x;
+    LargeInt largeIntX = largeInt - x;
     cout << largeIntX << endl;
     cout << (largeInt != x) << endl;
 

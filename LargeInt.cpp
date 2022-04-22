@@ -18,7 +18,7 @@ LargeInt::LargeInt(string numStr)
     assignStrToLargeInt(numStr, *this);
 }
 
-void assignStrToLargeInt(string numStr, LargeInt& largeInt)
+void LargeInt::assignStrToLargeInt(string numStr, LargeInt& largeInt)
 {
     largeInt.destroy();                                     // remove all existing value in largeInt
 
@@ -67,7 +67,7 @@ void LargeInt::destroy()
     sign = '\0';
 }
 
-LargeInt addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
+LargeInt LargeInt::addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
 {
     string resStr;                                                  // string representation of result largeInt
 
@@ -113,7 +113,7 @@ LargeInt addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
     return resLargeInt;
 }
 
-LargeInt subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
+LargeInt LargeInt::subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
 {
     // variable records if the position of two largeInt swapped
     bool swap = false;
@@ -175,7 +175,7 @@ LargeInt subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs)
     return resLargeInt;
 }
 
-LargeInt multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
+LargeInt LargeInt::multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
 {
     string resStr;
     DListIterator<int> frontIteratorR = rhs.numList.begin();        // the front iterator of the largeInt "rhs"
@@ -205,7 +205,7 @@ LargeInt multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
     return resLargeInt;
 }
 
-LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d)
+LargeInt LargeInt::multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d)
 {
     string resStr;                                                  // string representation of result largeInt
     DListIterator<int> frontIterator = largeInt.numList.begin();    // the front iterator of the largeInt
@@ -243,7 +243,7 @@ LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d)
     return resLargeInt;
 }
 
-LargeInt divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
+LargeInt LargeInt::divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
 {
     lhs.sign = '+';                                                 // turning both largeInt to positive
     rhs.sign = '+';
@@ -536,7 +536,7 @@ LargeInt LargeInt::operator/(const LargeInt& other) const
 
 LargeInt LargeInt::operator%(const LargeInt& other) const
 {
-    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
+    string signs = combineSigns(*this, other);   // combination of sign from this and other
 
     string resStr;                                              // string representation of a largeInt
     LargeInt resLargeInt;                                       // the largeInt as a result to be returned
@@ -578,7 +578,7 @@ LargeInt LargeInt::operator%(const LargeInt& other) const
 LargeInt LargeInt::operator+(const int& other) const
 {
     // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+    LargeInt otherLargeInt = integerToLargeInt(other);
 
     // return the addition between two largeInt
     LargeInt resLargeInt = (*this) + otherLargeInt;
@@ -659,7 +659,7 @@ bool LargeInt::operator!=(const LargeInt &other) const
 
 bool LargeInt::operator<(const LargeInt &other) const
 {
-    string signs = LargeInt::combineSigns(*this, other);   // combination of sign from this and other
+    string signs = combineSigns(*this, other);   // combination of sign from this and other
 
     vector<string> defNotSmallerSigns {"00", "0-", "+-", "+0"};
     vector<string> defSmallerSigns {"-0", "0+", "-+"};
@@ -738,7 +738,7 @@ bool LargeInt::operator>=(const LargeInt& other) const
 bool LargeInt::operator==(const int& other) const
 {
     // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+    LargeInt otherLargeInt = integerToLargeInt(other);
 
     return (*this == otherLargeInt);
 }
@@ -746,7 +746,7 @@ bool LargeInt::operator==(const int& other) const
 bool LargeInt::operator!=(const int& other) const
 {
     // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+    LargeInt otherLargeInt = integerToLargeInt(other);
 
     return (*this != otherLargeInt);
 }
@@ -754,7 +754,7 @@ bool LargeInt::operator!=(const int& other) const
 bool LargeInt::operator<(const int& other) const
 {
     // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+    LargeInt otherLargeInt = integerToLargeInt(other);
 
     return (*this < otherLargeInt);
 }
@@ -762,7 +762,7 @@ bool LargeInt::operator<(const int& other) const
 bool LargeInt::operator<=(const int& other) const
 {
     // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+    LargeInt otherLargeInt = integerToLargeInt(other);
 
     return (*this <= otherLargeInt);
 }
@@ -770,7 +770,7 @@ bool LargeInt::operator<=(const int& other) const
 bool LargeInt::operator>(const int& other) const
 {
 // create largeInt representation for an integer
-LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+LargeInt otherLargeInt = integerToLargeInt(other);
 
 return (*this > otherLargeInt);
 }
@@ -778,7 +778,7 @@ return (*this > otherLargeInt);
 bool LargeInt::operator>=(const int& other) const
 {
 // create largeInt representation for an integer
-    LargeInt otherLargeInt = LargeInt::integerToLargeInt(other);
+    LargeInt otherLargeInt = integerToLargeInt(other);
 
     return (*this >= otherLargeInt);
 }

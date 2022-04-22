@@ -22,7 +22,7 @@ private:
      * @Brief Function converts string to integer and store them in
      * the linked list of largeInt which passed as reference
      */
-    friend void assignStrToLargeInt(string numStr, LargeInt& largeInt);
+    void static assignStrToLargeInt(string numStr, LargeInt& largeInt);
 
     /**
      * @Brief Function copy values from largeInt to another largeInt
@@ -40,7 +40,7 @@ private:
      * ---> result from this function: 190, instead of -10
      * @Output a positive (+) largeInt which represent the calculation result
      */
-    friend LargeInt addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+    LargeInt static addLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
      * @Brief Function conduct subtraction between two positive largeInts
@@ -49,7 +49,7 @@ private:
      * @Output a signed (+ or -) largeInt which represent the subtraction value between
      * "lhs" and "rhs" largeInts
      */
-    friend LargeInt subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs);
+    LargeInt static subtractPositiveLargeInt(LargeInt lhs, LargeInt rhs);
 
     /**
      * @Brief Function multiply two largeInt without taking their sign "+/-" into account
@@ -57,14 +57,14 @@ private:
      * ---> result from this function: 9000, instead of -9000
      * @Output a positive largeInt which represent the multiplication result
      */
-    friend LargeInt multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+    LargeInt static multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
      * @Brief Function multiplies a largeInt with a integer digit like "6", "8"
      * @Input the positive largeInt and positive single digit int we want to multiply
      * @Output a positive largeInt as the representation of multiplication result
      */
-    friend LargeInt multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
+    LargeInt static multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
 
     /**
      * @Brief Function divide a largeInt by another largeInt, without taking
@@ -73,7 +73,9 @@ private:
      * ---> result from this function: 1, instead of -1
      * @Output a positive largeInt which represent the multiplication result
      */
-    friend LargeInt divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+//    friend LargeInt divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
+
+    LargeInt static divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
      * @Brief Function checks if a signs (combination of signs from two largeInt)
