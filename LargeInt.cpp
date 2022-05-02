@@ -1,6 +1,6 @@
 /************************************************************************/
 /* Programmer: Xinpeng Liu                                              */
-/* Date: April 17, 2022                                                 */
+/* Date: May 2, 2022                                                    */
 /* Purpose:  The implementation of LargeInt class                       */
 /************************************************************************/
 
@@ -188,7 +188,7 @@ LargeInt LargeInt::multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
         int digit = frontIteratorR.getItem();                       // a digit from largeInt rhs
 
         // let one digit from "rhs" multi largeInt "lhs", and save temp multi result to a temp largeInt
-        LargeInt tempLargeInt = multiPosLargeIntWithIntDigit(lhs, digit);
+        LargeInt tempLargeInt = multiLargeIntIgnoreSignWithPosIntDigit(lhs, digit);
 
         // adding extra "0" to the temp multi result
         for (int i=0; i<extraZeroNum; ++i)
@@ -205,7 +205,7 @@ LargeInt LargeInt::multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
     return resLargeInt;
 }
 
-LargeInt LargeInt::multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d)
+LargeInt LargeInt::multiLargeIntIgnoreSignWithPosIntDigit(LargeInt& largeInt, int d)
 {
     string resStr;                                                  // string representation of result largeInt
     DListIterator<int> frontIterator = largeInt.numList.begin();    // the front iterator of the largeInt
@@ -782,6 +782,8 @@ bool LargeInt::operator>=(const int& other) const
 
     return (*this >= otherLargeInt);
 }
+
+
 
 
 

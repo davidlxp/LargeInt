@@ -1,36 +1,184 @@
+/*********************************************************************/
+/* Programmer: Xinpeng Liu                                           */
+/* Date: May 2, 2022                                                 */
+/* Purpose: Section for testing the LargeInt program                 */
+/*********************************************************************/
+
+
 #include <iostream>
 #include "LargeInt.h"
 using namespace std;
 
+/**
+ * @Brief The function print main menu and receive user choice
+ */
+int printMenu();
+
+/**
+ * @Brief The function parses a math expression
+ * @Detail It will parse expression like "  123 + 892" to a vector { "123", "+", "892" }
+ */
+vector<string> parseMathExpression(string mathExpression);
+
+/**
+ * @Brief The function do calculation of two largeInt and print the result
+ */
+void largeIntCalculation(LargeInt largeInt1, LargeInt largeInt2, string op);
+
+/**
+ * @Brief The function do comparison between two largeInts and print the result
+ */
+void largeIntComparison(LargeInt largeInt1, LargeInt largeInt2, string op);
+
+/**
+ * @Brief The function run the main program
+ */
+void runProgram();
+
+
 int main() {
 
-//    cout << "please enter the 1st large integer: ";
-//    LargeInt largeInt;
-//    cin >> largeInt;
-//    cout << "please enter the 2nd large integer: ";
-//    LargeInt largeInt2;
-//    cin >> largeInt2;
-//    LargeInt largeIntX = largeInt - largeInt2;
-//    cout << largeIntX;
-
-    LargeInt x;
-    x = 919;
-    LargeInt largeInt("-10");
-    LargeInt largeInt2("2");
-    LargeInt largeIntX = largeInt - x;
-    cout << largeIntX << endl;
-    cout << (largeInt != x) << endl;
-
-//    LargeInt largeInt;
-//    LargeInt largeInt2;
-//    string numStr = "-8";
-//    string numStr2 = "5";
-//    largeInt = numStr;
-//    largeInt2 = numStr2;
-//    cout << largeInt << " != " << largeInt2 << " == " << (largeInt != largeInt2) << endl;
-
-
-
-
+    runProgram();
     return 0;
+
 }
+
+int printMenu()
+{
+    int choice;
+
+    cout << "\nMain Menu:" << endl;
+    cout << "1. Use Large Integer Calculator" << endl;
+    cout << "2. Compare Two Large Integers" << endl;
+    cout << "3. Exit The Program" << endl;
+    cout << "Please select 1, 2 or 3: ";
+
+    string choiceStr;
+    getline(cin, choiceStr);
+    choice = stoi(choiceStr);
+
+    return choice;
+}
+
+void runProgram()
+{
+    cout << "\nWelcome to the Large Integer Calculator!";
+    cout << "\nIf you provide me two large integer and an operator, I could calculate for you." << endl;
+
+    cout << "\nPlease follows the rules below when providing an mathematical expression:";
+    cout << "\n> Both positive and negative integers are allowed. There are no limit on number of digits in your integer";
+    cout << "\n> Only +, -, *, /, % operators are allowed";
+
+    int choice = printMenu();
+    while (choice != 3)
+    {
+        if (choice == 1 || choice == 2)
+        {
+            string input;                                                   // input like "123 + 578"
+            vector<string> parsedInput;                                     // vector like { "123", "+", "578" }
+
+            cout << "please enter a math expression (eg. 12345+78919 or 123>456): ";
+            getline(cin, input);
+
+            parsedInput = parseMathExpression(input);         // parse math input from string to vector
+            LargeInt largeInt1(parsedInput[0]);
+            string op = parsedInput[1];
+            LargeInt largeInt2(parsedInput[2]);
+
+            if (choice == 1)                                                // Do largeInt calculation
+                largeIntCalculation(largeInt1, largeInt2, op);
+            else                                                            // Do largeInt comparison
+                largeIntComparison(largeInt1, largeInt2, op);
+        }
+        else
+        {
+            cout<<"\nNumber is not correct. Please look at "
+                <<"choices and reenter\n\n";
+        }
+
+        choice = printMenu();
+    }
+}
+
+vector<string> parseMathExpression(string mathExpression)
+{
+    string num1;
+    string op;
+    string num2;
+    bool opFound = false;
+
+    for (char c : mathExpression)
+    {
+        if (c == ' ')
+            continue;
+        else if (!isdigit(c))
+        {
+            op.push_back(c);
+            opFound = true;
+        }
+        else if (!opFound)
+            num1.push_back(c);
+        else
+            num2.push_back(c);
+    }
+
+    vector<string> result = { num1, op, num2 };
+
+    return result;
+}
+
+void largeIntCalculation(LargeInt largeInt1, LargeInt largeInt2, string op)
+{
+    LargeInt result;
+
+    if (op == "+")
+        result = largeInt1 + largeInt2;
+    else if (op == "-")
+        result = largeInt1 - largeInt2;
+    else if (op == "*")
+        result = largeInt1 * largeInt2;
+    else if (op == "/")
+        result = largeInt1 / largeInt2;
+    else if (op == "%")
+        result = largeInt1 % largeInt2;
+    else
+    {
+        cout << "The operator you provided is invalid!" << endl;
+        return;
+    }
+
+    cout << "Your input is: " << largeInt1 << " " << op << " " << largeInt2 << endl;
+    cout << "Calculation result: " << result << "\n" << endl;
+}
+
+void largeIntComparison(LargeInt largeInt1, LargeInt largeInt2, string op)
+{
+    bool result;
+
+    if (op == "<")
+        result = largeInt1 < largeInt2;
+    else if (op == "<=")
+        result = largeInt1 <= largeInt2;
+    else if (op == "==")
+        result = largeInt1 == largeInt2;
+    else if (op == ">=")
+        result = largeInt1 >= largeInt2;
+    else if (op == ">")
+        result = largeInt1 > largeInt2;
+    else if (op == "!=")
+        result = largeInt1 != largeInt2;
+    else
+    {
+        cout << "The operator you provided is invalid!" << endl;
+        return;
+    }
+
+    cout << "Your input is: " << largeInt1 << " " << op << " " << largeInt2 << endl;
+    cout << "Comparison result: ";
+    if (result)
+        cout << "TRUE" << "\n" << endl;
+    else
+        cout << "FALSE" << "\n" << endl;
+}
+
+

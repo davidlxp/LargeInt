@@ -1,6 +1,6 @@
 /************************************************************************/
 /* Programmer: Xinpeng Liu                                              */
-/* Date: April 17, 2022                                                 */
+/* Date: May 2, 2022                                                    */
 /* Purpose:  An class for storing large integer and conduct operations  */
 /************************************************************************/
 
@@ -60,11 +60,13 @@ private:
     LargeInt static multiLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
 
     /**
-     * @Brief Function multiplies a largeInt with a integer digit like "6", "8"
-     * @Input the positive largeInt and positive single digit int we want to multiply
+     * @Brief Function multiplies a largeInt (without taking it's sign into account)
+     * with a positive integer digit like "6", "8", "2"
+     * @Input a largeInt variable and a positive single digit int we the largeInt variable
+     * to multiply with
      * @Output a positive largeInt as the representation of multiplication result
      */
-    LargeInt static multiPosLargeIntWithIntDigit(LargeInt& largeInt, int d);
+    LargeInt static multiLargeIntIgnoreSignWithPosIntDigit(LargeInt& largeInt, int d);
 
     /**
      * @Brief Function divide a largeInt by another largeInt, without taking
