@@ -255,21 +255,10 @@ LargeInt LargeInt::divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
 
     while (!backIteratorL.isNull())
     {
-        // a variable indicates whether it's the beginning of the round
-        bool roundBeginFlag = true;
-
         // add value to temp numerator until it >= largeInt rhs
         while (tempNumerator < rhs && !backIteratorL.isNull())
         {
-            // add zero to final calculation string if it is not empty, and it's not the beginning of round
-            if (!resStr.empty() && !roundBeginFlag)
-                resStr.append(to_string(0));
-
-            // update the round begin flag to indicate it's not the beginning of round anymore
-            if (roundBeginFlag)
-                roundBeginFlag = false;
-
-            // if temporary numerator is zero, empty its linked list to prepare for loading.
+            // if temporary numerator is zero, empty its linked list to prepare for loading digits from largeInt "lhs"
             if (tempNumerator.sign == '0')
             {
                 tempNumerator.destroy();
@@ -280,14 +269,21 @@ LargeInt LargeInt::divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs)
             int val = backIteratorL.getItem();
             backIteratorL.prev();
             tempNumerator.numList.insertFront(val);
+
+            // add zero to result string if it is not empty (empty means none calculation has done yet), and at the
+            // same time, the temp numerator is still less than "rhs". Still less than "rhs" means, the division
+            // calculation between temp numerator and "rhs" still can't be conducted yet, so we add "0" to the result
+            // string to compensate the digit borrowed from "lhs".
+            if (!resStr.empty() && tempNumerator < rhs)
+                resStr.append(to_string(0));
         }
 
         // if the tempNumerator >= rhs, do division.
         // if tempNumerator < rhs, but iterator is null, it means the division process end
         if (tempNumerator >= rhs)
         {
-            // rhs is the denominator. Multiply it by 1...9, until find the largest value which is
-            // smaller than the tempNumerator. And that value is the division result of this round.
+            // rhs is the denominator. Multiply it by 1...9, until find the largest value which is smaller
+            // than or equal to the tempNumerator. And that value is the division result of this round.
             int i = 1;
             while (rhs * i <= tempNumerator)
                 i++;
@@ -520,15 +516,23 @@ LargeInt LargeInt::operator/(const LargeInt& other) const
     // division operations
     if (signsInVec(resultIsZeroSigns, signs))            // if division result should be zero
         resLargeInt = LargeInt("0");
-    else if (signsInVec(resultIsPosSigns, signs))        // if multiplication result should be positive
+    else if (signsInVec(resultIsPosSigns, signs))        // if division result should be positive
     {
         resLargeInt = divideLargeIntIgnoreSign(*this, other);
-        resLargeInt.sign = '+';
+
+        if (largeIntNumPartToString(resLargeInt) == "0")
+            resLargeInt.sign = '0';
+        else
+            resLargeInt.sign = '+';
     }
-    else                                                        // if multiplication result should be negative
+    else                                                        // if division result should be negative
     {
         resLargeInt = divideLargeIntIgnoreSign(*this, other);
-        resLargeInt.sign = '-';
+
+        if (largeIntNumPartToString(resLargeInt) == "0")
+            resLargeInt.sign = '0';
+        else
+            resLargeInt.sign = '-';
     }
 
     return resLargeInt;
@@ -783,11 +787,31 @@ bool LargeInt::operator>=(const int& other) const
     return (*this >= otherLargeInt);
 }
 
+string LargeInt::largeIntNumPartToString(LargeInt& largeInt)
+{
+    string result;
+    DListIterator<int> backIterator = largeInt.numList.end();
 
+    while (!backIterator.isNull()) {
+        result.append(to_string(backIterator.getItem()));           // add the number to result string
+        backIterator.prev();                                            // moving the iterator
+    }
 
+    return result;
+}
 
+string LargeInt::largeIntToString(LargeInt& largeInt)
+{
+    if (largeInt.sign == '0')
+        return "0";
+    else
+    {
+        string result;
+        result = largeIntNumPartToString(largeInt);
 
+        if (largeInt.sign == '-')                                       // adding the '-' sign to result string
+            result = "-" + result;
 
-
-
-
+        return result;
+    }
+}

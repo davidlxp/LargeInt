@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "LargeInt.h"
+#include "LargeIntTest.h"
 using namespace std;
 
 /**
@@ -32,15 +33,26 @@ void largeIntComparison(LargeInt largeInt1, LargeInt largeInt2, string op);
 
 /**
  * @Brief The function run the main program
+ * @Input The address of the test cases text file
  */
-void runProgram();
+void runProgram(string fileAddress);
+
+/**
+ * @Brief The function run the test cases
+ */
+void runTestCases(string fileAddress);
 
 
 int main() {
 
-    runProgram();
-    return 0;
+    runProgram("../TestCases.txt");
 
+//    LargeInt num1("2315125");
+//    LargeInt num2("21353");
+//    LargeInt res = num1 / num2;
+//    cout << res << endl;
+
+    return 0;
 }
 
 int printMenu()
@@ -50,7 +62,8 @@ int printMenu()
     cout << "\nMain Menu:" << endl;
     cout << "1. Use Large Integer Calculator" << endl;
     cout << "2. Compare Two Large Integers" << endl;
-    cout << "3. Exit The Program" << endl;
+    cout << "3. Run Automated Test Cases" << endl;
+    cout << "4. Exit The Program" << endl;
     cout << "Please select 1, 2 or 3: ";
 
     string choiceStr;
@@ -60,17 +73,17 @@ int printMenu()
     return choice;
 }
 
-void runProgram()
+void runProgram(string fileAddress)
 {
     cout << "\nWelcome to the Large Integer Calculator!";
     cout << "\nIf you provide me two large integer and an operator, I could calculate for you." << endl;
 
     cout << "\nPlease follows the rules below when providing an mathematical expression:";
     cout << "\n> Both positive and negative integers are allowed. There are no limit on number of digits in your integer";
-    cout << "\n> Only +, -, *, /, % operators are allowed";
+    cout << "\n> Only +, -, *, /, % operators are allowed" << endl;
 
     int choice = printMenu();
-    while (choice != 3)
+    while (choice != 4)
     {
         if (choice == 1 || choice == 2)
         {
@@ -90,6 +103,8 @@ void runProgram()
             else                                                            // Do largeInt comparison
                 largeIntComparison(largeInt1, largeInt2, op);
         }
+        else if (choice == 3)
+            runTestCases(fileAddress);
         else
         {
             cout<<"\nNumber is not correct. Please look at "
@@ -179,6 +194,20 @@ void largeIntComparison(LargeInt largeInt1, LargeInt largeInt2, string op)
         cout << "TRUE" << "\n" << endl;
     else
         cout << "FALSE" << "\n" << endl;
+}
+
+void runTestCases(string fileAddress)
+{
+    string choice;
+    cout << "Do you wanna see detailed test result? (y/n): ";
+    getline(cin, choice);
+
+    LargeIntTest T;
+
+    if (choice == "y")
+        T.runTestCases(fileAddress, true);
+    else
+        T.runTestCases(fileAddress, false);
 }
 
 

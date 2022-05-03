@@ -240,7 +240,16 @@ public:
     bool operator>(const int& other) const;
     bool operator>=(const int& other) const;
 
+    /**
+     * @Brief Function convert the number part of a largeInt to its string representation.
+     * It means will not take the sign into account
+     */
+    string static largeIntNumPartToString(LargeInt& largeInt);
 
+    /**
+     * @Brief Function convert a largeInt to its string representation
+     */
+    string static largeIntToString(LargeInt& largeInt);
 
 
 };
