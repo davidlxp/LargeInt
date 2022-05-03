@@ -75,17 +75,7 @@ private:
      * ---> result from this function: 1, instead of -1
      * @Output a positive largeInt which represent the multiplication result
      */
-//    friend LargeInt divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
-
     LargeInt static divideLargeIntIgnoreSign(LargeInt lhs, LargeInt rhs);
-
-    /**
-     * @Brief Function checks if a signs (combination of signs from two largeInt)
-     * like "+-" is in a vector of signs or not. Vector of signs could be something
-     * like {"0+", "+0", "++", "--", ...}
-     * @Output return True if the input "signs" is in the "vector of signs"
-     */
-    bool static signsInVec(vector<string>& signsVec, string& signs);
 
     /**
      * @Brief Function removes all leading zeros from a "string representation of number"
@@ -250,6 +240,14 @@ public:
      * @Brief Function convert a largeInt to its string representation
      */
     string static largeIntToString(LargeInt& largeInt);
+
+    /**
+     * @Brief Function checks if a signs (combination of signs from two largeInt)
+     * like "+-" is in a vector of signs or not. Vector of signs could be something
+     * like {"0+", "+0", "++", "--", ...}
+     * @Output return True if the input "signs" is in the "vector of signs"
+     */
+    bool static signsInVec(vector<string>& signsVec, string& signs);
 
 
 };

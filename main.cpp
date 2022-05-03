@@ -64,7 +64,7 @@ int printMenu()
     cout << "2. Compare Two Large Integers" << endl;
     cout << "3. Run Automated Test Cases" << endl;
     cout << "4. Exit The Program" << endl;
-    cout << "Please select 1, 2 or 3: ";
+    cout << "Please select 1, 2, 3 or 4: ";
 
     string choiceStr;
     getline(cin, choiceStr);
@@ -90,7 +90,10 @@ void runProgram(string fileAddress)
             string input;                                                   // input like "123 + 578"
             vector<string> parsedInput;                                     // vector like { "123", "+", "578" }
 
-            cout << "please enter a math expression (eg. 12345+78919 or 123>456): ";
+            if (choice == 1)
+                cout << "please enter a math expression (eg. 12345+78919): ";
+            else
+                cout << "please enter a math expression (eg. 123>456): ";
             getline(cin, input);
 
             parsedInput = parseMathExpression(input);         // parse math input from string to vector

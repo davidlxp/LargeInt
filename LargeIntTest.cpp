@@ -27,9 +27,10 @@ vector<string> LargeIntTest::readTestLine(string line)
     vector<string> temp = splitString(line, " ");
     for (string s : temp)
     {
-        if (!s.empty())
+        if (!s.empty() && s!="=")
             result.push_back(s);
     }
+
     return result;
 }
 
@@ -54,6 +55,9 @@ LargeInt LargeIntTest::largeIntCalculation(string& num1, string& num2, string& o
     LargeInt n1(num1);
     LargeInt n2(num2);
 
+    vector<string> ops { "+", "-", "*", "/", "%" };
+    assert(LargeInt::signsInVec(ops, op) && "The Operator Provided in the test case is invalid!");
+
     if (op == "+")
         return n1 + n2;
     else if (op == "-")
@@ -62,7 +66,7 @@ LargeInt LargeIntTest::largeIntCalculation(string& num1, string& num2, string& o
         return n1 * n2;
     else if (op == "/")
         return n1 / n2;
-    else if (op == "%")
+    else
         return n1 % n2;
 }
 
