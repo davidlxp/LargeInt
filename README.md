@@ -12,14 +12,14 @@ The class holds large integer using a linked list. It also overloaded operators 
 Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project.
 There are two ways to create a LargeInt variable:
 
-**Method 1. Transform a string into LargeInt variable using operator=**
+**Method 1.** Transform a string into LargeInt variable using operator=
 ```
 String str = "-12345";
 LargeInt largeInt;
 largeInt = str;
 ```
 
-**Method2. Passing a string as parameter when instantiate a LargeInt**
+**Method2.** Passing a string as parameter when instantiate a LargeInt**
 ```
 LargeInt largeInt("-12345");
 ```
