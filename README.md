@@ -5,12 +5,34 @@
 - **Section:** CSC-331H
 
 The purpose of this project is creating a class named "LargeInt" for storing integers which is larger than the largest integer which c++ can hold.
+<br/>The class holds large integer using a linked list. It also overloaded operators to enable mathematical operations between largeInt variables.
 
-The class holds large integer using a linked list. It also overloaded operators to enable mathematical operations between largeInt variables.
+## Contents
 
-## To use the LargeInt class in your own project
-Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project.<br/>
-There are two ways to create a LargeInt variable:
+The following files should be presented in the same folder:
+- `LargeInt.h` (header file for defining LargeInt class)
+- `LargeInt.cpp` (implementation of LargeInt class)
+- `main.cpp` (the driver class)
+
+The following classes should also be included in the folder stated above, because "LargeInt" class used doubly linkedlist for implementation:
+- `node.h` (header file of linked list nodes)
+- `DList.h` (header file of the doubly linked list class)
+- `DList.cpp` (Implementation of the doubly linked list class)
+- `DListIterator.h` (header file of an iterator class for doubly linked list)
+- `DListIterator.cpp` (implementation of the iterator class)
+
+Lastly, an unit test has been created for testing the LargeInt class. Please also include the following files into the folder:
+- `LargeIntTest.h` (header file of a unit test class for testing the performance of LargeInt class)
+- `LargeIntTest.cpp` (implementation of the unit test class)
+- `TestCases.txt`
+
+## To add LargeInt class to your own project
+Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project. Then include the header file of LargeInt class into your program by:
+```
+#include "LargeInt.h"
+```
+
+## To create LargeInt variable
 
 **Method 1.** Transform a string into LargeInt variable using operator=
 ```
