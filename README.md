@@ -9,7 +9,7 @@ The purpose of this project is creating a class named "LargeInt" for storing int
 The class holds large integer using a linked list. It also overloaded operators to enable mathematical operations between largeInt variables.
 
 ## To use the LargeInt class in your own project
-Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project.
+Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project.__
 There are two ways to create a LargeInt variable:
 
 **Method 1.** Transform a string into LargeInt variable using operator=
