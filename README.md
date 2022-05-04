@@ -5,7 +5,7 @@
 - **Section:** CSC-331H
 
 The purpose of this project is creating a class named "LargeInt" for storing integers which is larger than the largest integer which c++ can hold.
-<br/>The class holds large integer using a linked list. It also overloaded operators to enable mathematical operations between largeInt variables.
+<br/>The class holds large integer using a linked list. It also overloaded operators to enable operations between largeInt variables.
 
 ## Contents
 
