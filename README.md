@@ -34,7 +34,7 @@ The `main.cpp` provides a menu driven program to test operations between two lar
 - Comparison operators including `<`, `<=`, `==`, `>=`, `>`
 
 ## To add LargeInt class to your own project
-Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project. Then include the header file of LargeInt class into your program by:
+Please copy `LargeInt.h`, `LargeInt.cpp` and its dependency files `node.h`, `DList.h`, `DList.cpp`, `DListIterator.h`, `DListIterator.cpp` to your project. Then include the header file of LargeInt class into your program by:
 ```
 #include "LargeInt.h"
 ```
