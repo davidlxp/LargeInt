@@ -52,17 +52,3 @@ largeInt = str;
 ```
 LargeInt largeInt("-12345");
 ```
-
-## How To Run The Program
-To run it locally, please download the files and save them into a folder
-- Open terminal and navigate to the project foler
-- run command ```g++ main.cpp -o main.out``` in terminal, and it will generate a ```main.out``` file in the project folder
-- run command ```./main.out``` in the terminal
-
-
-
-
-
-
-
-
