@@ -24,7 +24,14 @@ The following classes should also be included in the folder stated above, becaus
 Lastly, an unit test has been created for testing the LargeInt class. Please also include the following files into the folder:
 - `LargeIntTest.h` (header file of a unit test class for testing the performance of LargeInt class)
 - `LargeIntTest.cpp` (implementation of the unit test class)
-- `TestCases.txt`
+- `TestCases.txt` (include test cases for analyzing)
+
+## Menu Driven Program for Testing
+
+The `main.cpp` provides a menu driven program to test operations between two large integers. It can evaluate mathematical expression that uses:
+- Both positive and negative LargeInt. For example, `-123455672342348234728374928323` or `8273498564837687623784628746238`
+- Mathematical operators including `+`, `-`, `*`, `/`, `%`
+- Comparison operators including `<`, `<=`, `==`, `>=`, `>`
 
 ## To add LargeInt class to your own project
 Please copy both `LargeInt.h` and `LargeInt.cpp` files to your project. Then include the header file of LargeInt class into your program by:
@@ -41,22 +48,15 @@ LargeInt largeInt;
 largeInt = str;
 ```
 
-**Method2.** Passing a string as parameter when instantiate a LargeInt**
+**Method2.** Passing a string as parameter when instantiate a LargeInt
 ```
 LargeInt largeInt("-12345");
 ```
 
-
-The project implement a arithmetic evaluation by using two stacks. It can evaluate mathematical expression that uses:
-- Integer Number (positive & negative). For example, `1` or `-9`
-- Decimal Number. For example, `4.5` or `.9`
-- Operator including `+`, `-`, `*`, `/`
-- parenthese `(` and `)` 
-
 ## How To Run The Program
 To run it locally, please download the files and save them into a folder
 - Open terminal and navigate to the project foler
-- run command "g++ main.cpp ArithmeticEvaluation.cpp -o main.out" in terminal, and it will generate a "main.out" file in the project folder
+- run command "g++ main.cpp -o main.out" in terminal, and it will generate a "main.out" file in the project folder
 - run command "./main.out" in the terminal
 
 
