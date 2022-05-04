@@ -140,7 +140,7 @@ vector<string> parseMathExpression(string mathExpression)
             num2.push_back(c);
     }
 
-    vector<string> result = { num1, op, num2 };
+    vector<string> result { num1, op, num2 };
 
     return result;
 }

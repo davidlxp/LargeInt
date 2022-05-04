@@ -20,7 +20,7 @@ private:
      * @Brief Function read all test cases from provided file address and save them
      * to a vector of testcases passed by reference
      */
-    void readTestCases(string fileAddress, vector<vector<string>>& testCases);
+    void readTestCases(string fileAddress, vector<vector<string> >& testCases);
 
     /**
      * @Brief Function reads a line of testcases from text file and extract elements from it
