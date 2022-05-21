@@ -16,10 +16,9 @@ using namespace std;
 int printMenu();
 
 /**
- * @Brief The function parses a math expression
- * @Detail It will parse expression like "  123 + 892" to a vector { "123", "+", "892" }
+ * @Brief The function remove extra white spaces from a string
  */
-vector<string> parseMathExpression(string mathExpression);
+string removeExtraSpace(string text);
 
 /**
  * @Brief The function do calculation of two largeInt and print the result
@@ -46,11 +45,6 @@ void runTestCases(string fileAddress);
 int main() {
 
     runProgram("../TestCases.txt");
-
-//    LargeInt num1("2315125");
-//    LargeInt num2("21353");
-//    LargeInt res = num1 / num2;
-//    cout << res << endl;
 
     return 0;
 }
@@ -87,19 +81,30 @@ void runProgram(string fileAddress)
     {
         if (choice == 1 || choice == 2)
         {
-            string input;                                                   // input like "123 + 578"
-            vector<string> parsedInput;                                     // vector like { "123", "+", "578" }
+            string numStr1;
+            string op;
+            string numStr2;
+
+            cout << "\n" << "Please enter the 1st number: ";
+            getline(cin, numStr1);
 
             if (choice == 1)
-                cout << "please enter a math expression (eg. 12345+78919): ";
+                cout << "Please enter an operator (eg. *): ";
             else
-                cout << "please enter a math expression (eg. 123>456): ";
-            getline(cin, input);
+                cout << "Please enter an operator (eg. >): ";
+            getline(cin, op);
 
-            parsedInput = parseMathExpression(input);         // parse math input from string to vector
-            LargeInt largeInt1(parsedInput[0]);
-            string op = parsedInput[1];
-            LargeInt largeInt2(parsedInput[2]);
+            cout << "Please enter the 2nd number: ";
+            getline(cin, numStr2);
+
+            // remove potential extra spaces from user's input
+            numStr1 = removeExtraSpace(numStr1);
+            numStr2 = removeExtraSpace(numStr2);
+            op = removeExtraSpace(op);
+
+            // generate largeInt out of num strings
+            LargeInt largeInt1(numStr1);
+            LargeInt largeInt2(numStr2);
 
             if (choice == 1)                                                // Do largeInt calculation
                 largeIntCalculation(largeInt1, largeInt2, op);
@@ -118,30 +123,16 @@ void runProgram(string fileAddress)
     }
 }
 
-vector<string> parseMathExpression(string mathExpression)
+string removeExtraSpace(string text)
 {
-    string num1;
-    string op;
-    string num2;
-    bool opFound = false;
-
-    for (char c : mathExpression)
+    string result;
+    for (char c : text)
     {
         if (c == ' ')
             continue;
-        else if (!isdigit(c))
-        {
-            op.push_back(c);
-            opFound = true;
-        }
-        else if (!opFound)
-            num1.push_back(c);
         else
-            num2.push_back(c);
+            result.push_back(c);
     }
-
-    vector<string> result { num1, op, num2 };
-
     return result;
 }
 
@@ -212,5 +203,3 @@ void runTestCases(string fileAddress)
     else
         T.runTestCases(fileAddress, false);
 }
-
-
